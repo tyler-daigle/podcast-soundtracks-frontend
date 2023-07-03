@@ -13,6 +13,12 @@ export interface PodcastDetails {
   podcastDefaultThumbnail: StrapiImage;
 }
 
+export interface PodcastHost {
+  hostName: string;
+  hostBio: string;
+  hostPicture: StrapiImage | null;
+}
+
 type ThumbnailSizes = "thumbnail" | "small" | "medium" | "large";
 
 const apiUrl = import.meta.env.API_URL;
@@ -34,6 +40,22 @@ export function getImageData(imageData: any, imageSize: ThumbnailSizes): StrapiI
     height,
     url,
   };
+}
+
+export async function getPodcastHosts(): Promise<PodcastHost[]> {
+  const data = await fetch(`${apiUrl}/podcast-hosts?populate=hostPicture`);
+  const json = await data.json();
+  const hostData = json.data;
+
+  const hosts: PodcastHost[] = hostData.map((podcastHost: any) => {
+    const { attributes } = podcastHost;
+    return {
+      hostName: attributes.hostName,
+      hostBio: attributes.hostBio,
+      hostPicture: attributes.hostPicture.data !== null ? getImageData(attributes.hostPicture.data, "thumbnail") : null
+    }
+  });
+  return hosts;
 }
 
 export async function getPodcastDetails() {

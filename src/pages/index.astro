@@ -1,9 +1,14 @@
 ---
-import { getPodcastDetails } from "../lib/getstrapi";
+import {
+	getPodcastDetails,
+	getPodcastHosts,
+	PodcastHost,
+} from "../lib/getstrapi";
 
 const podcastDetails = await getPodcastDetails();
 const headerImage = podcastDetails.podcastHeaderImage;
 const thumbnail = podcastDetails.podcastDefaultThumbnail;
+const hosts = await getPodcastHosts();
 ---
 
 <html lang="en">
@@ -23,5 +28,15 @@ const thumbnail = podcastDetails.podcastDefaultThumbnail;
 		/>
 		<h1>{podcastDetails.podcastName}</h1>
 		<p>{podcastDetails.podcastDescription}</p>
+		<ul>
+			{
+				hosts.map((host: PodcastHost) => (
+					<li>
+						<h2>{host.hostName}</h2>
+						<p>{host.hostBio}</p>
+					</li>
+				))
+			}
+		</ul>
 	</body>
 </html>
