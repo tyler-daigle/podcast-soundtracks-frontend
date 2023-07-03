@@ -1,4 +1,9 @@
 ---
+import { getPodcastDetails } from "../lib/getstrapi";
+
+const podcastDetails = await getPodcastDetails();
+const headerImage = podcastDetails.podcastHeaderImage;
+const thumbnail = podcastDetails.podcastDefaultThumbnail;
 ---
 
 <html lang="en">
@@ -7,9 +12,16 @@
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>{podcastDetails.podcastName}</title>
 	</head>
 	<body>
-		<h1>Astro</h1>
+		<img
+			src={headerImage.url}
+			height={headerImage.height}
+			width={headerImage.width}
+			alt={headerImage.alternativeText}
+		/>
+		<h1>{podcastDetails.podcastName}</h1>
+		<p>{podcastDetails.podcastDescription}</p>
 	</body>
 </html>
