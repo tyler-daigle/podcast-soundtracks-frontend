@@ -10,6 +10,7 @@ import {
 
 import Navbar from "../components/Navbar.astro";
 import Header from "../components/Header.astro";
+import SocialMediaLinks from "../components/SocialMediaLinks.astro";
 
 const podcastDetails = await getPodcastDetails();
 const hosts = await getPodcastHosts();
@@ -35,7 +36,7 @@ const defaultThumbnail = podcastDetails.podcastDefaultThumbnail;
 			headerImage={headerImageLarge}
 			podcastName={podcastDetails.podcastName}
 		/>
-
+		<SocialMediaLinks socialLinks={socialLinks} />
 		<h1>{podcastDetails.podcastName}</h1>
 		<p>{podcastDetails.podcastDescription}</p>
 		<ul>

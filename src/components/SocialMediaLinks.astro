@@ -1,0 +1,24 @@
+---
+import type { PodcastSocialLinks } from "../lib/getstrapi";
+
+interface Props {
+  socialLinks: PodcastSocialLinks;
+}
+import SocialLink from "./SocialLink.astro";
+
+const { socialLinks } = Astro.props;
+---
+
+<ul>
+  {
+    Array.from(socialLinks).map(([socialName, url]) =>
+      url !== null ? (
+        <li>
+          <SocialLink socialName={socialName} url={url} />
+        </li>
+      ) : (
+        ""
+      )
+    )
+  }
+</ul>

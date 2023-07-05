@@ -29,13 +29,7 @@ export interface PodcastEpisode {
   episodeReleaseDate: Date;
 }
 
-export interface PodcastSocialLinks {
-  instagram: string | null;
-  twitter: string | null;
-  patreon: string | null;
-  facebook: string | null;
-  www: string | null;
-}
+export type PodcastSocialLinks = Map<string, string>;
 
 type ThumbnailSizes = "thumbnail" | "small" | "medium" | "large";
 
@@ -124,8 +118,18 @@ export async function getSocialLinks(): Promise<PodcastSocialLinks> {
   const data = await fetch(`${apiUrl}/social-media`);
   const json = await data.json();
   const socialLinks = json.data.attributes as PodcastSocialLinks;
+  const allowedSites = ["instagram", "twitter", "patreon", "facebook", "www"];
+  const links: PodcastSocialLinks = new Map();
+
   console.log(socialLinks);
-  return {
-    ...socialLinks
-  }
+
+  Object.keys(socialLinks).forEach(link => {
+    if (allowedSites.includes(link)) {
+      links.set(link, socialLinks[link]);
+    }
+  })
+
+  console.log(links);
+
+  return links;
 }
