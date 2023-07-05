@@ -1,0 +1,20 @@
+---
+import type { StrapiImage } from "../lib/getstrapi";
+
+interface Props {
+  headerImage: StrapiImage;
+  podcastName: string;
+}
+const { headerImage, podcastName } = Astro.props;
+---
+
+<header>
+  <div
+    class="w-full h-96 bg-no-repeat bg-cover relative border"
+    style={{ backgroundImage: `url(${headerImage.url})` }}
+  >
+    <h1 class="text-6xl font-bold text-white absolute bottom-4 left-4">
+      {podcastName}
+    </h1>
+  </div>
+</header>

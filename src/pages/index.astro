@@ -9,6 +9,7 @@ import {
 } from "../lib/getstrapi";
 
 import Navbar from "../components/Navbar.astro";
+import Header from "../components/Header.astro";
 
 const podcastDetails = await getPodcastDetails();
 const hosts = await getPodcastHosts();
@@ -30,12 +31,11 @@ const defaultThumbnail = podcastDetails.podcastDefaultThumbnail;
 	</head>
 	<body>
 		<Navbar />
-		<img
-			src={headerImageLarge.url}
-			height={headerImageLarge.height}
-			width={headerImageLarge.width}
-			alt={headerImageLarge.alternativeText}
+		<Header
+			headerImage={headerImageLarge}
+			podcastName={podcastDetails.podcastName}
 		/>
+
 		<h1>{podcastDetails.podcastName}</h1>
 		<p>{podcastDetails.podcastDescription}</p>
 		<ul>

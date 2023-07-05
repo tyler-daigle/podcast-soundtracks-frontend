@@ -87,7 +87,7 @@ export async function getPodcastDetails() {
     podcastDescription: podcastData.podcastDescription,
     podcastHeaderImageLarge: getImageData(
       podcastData.podcastHeaderImage.data.attributes,
-      "large"
+      "medium" // TODO: some images don't have large verisons
     ),
     podcastHeaderImageMedium: getImageData(
       podcastData.podcastHeaderImage.data.attributes,
