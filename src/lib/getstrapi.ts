@@ -9,7 +9,8 @@ export interface StrapiImage {
 export interface PodcastDetails {
   podcastName: string;
   podcastDescription: string;
-  podcastHeaderImage: StrapiImage;
+  podcastHeaderImageLarge: StrapiImage;
+  podcastHeaderImageMedium: StrapiImage;
   podcastDefaultThumbnail: StrapiImage;
 }
 
@@ -76,9 +77,13 @@ export async function getPodcastDetails() {
   return {
     podcastName: podcastData.podcastName,
     podcastDescription: podcastData.podcastDescription,
-    podcastHeaderImage: getImageData(
+    podcastHeaderImageLarge: getImageData(
       podcastData.podcastHeaderImage.data.attributes,
       "large"
+    ),
+    podcastHeaderImageMedium: getImageData(
+      podcastData.podcastHeaderImage.data.attributes,
+      "medium"
     ),
     podcastDefaultThumbnail: getImageData(
       podcastData.podcastDefaultThumbnail.data.attributes,

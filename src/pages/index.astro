@@ -7,10 +7,12 @@ import {
 } from "../lib/getstrapi";
 
 const podcastDetails = await getPodcastDetails();
-const headerImage = podcastDetails.podcastHeaderImage;
-const thumbnail = podcastDetails.podcastDefaultThumbnail;
 const hosts = await getPodcastHosts();
 const episodeList = await getEpisodeList();
+
+const headerImageLarge = podcastDetails.podcastHeaderImageLarge;
+const headerImageMedium = podcastDetails.podcastHeaderImageMedium;
+const defaultThumbnail = podcastDetails.podcastDefaultThumbnail;
 ---
 
 <html lang="en">
@@ -23,10 +25,10 @@ const episodeList = await getEpisodeList();
 	</head>
 	<body>
 		<img
-			src={headerImage.url}
-			height={headerImage.height}
-			width={headerImage.width}
-			alt={headerImage.alternativeText}
+			src={headerImageLarge.url}
+			height={headerImageLarge.height}
+			width={headerImageLarge.width}
+			alt={headerImageLarge.alternativeText}
 		/>
 		<h1>{podcastDetails.podcastName}</h1>
 		<p>{podcastDetails.podcastDescription}</p>
