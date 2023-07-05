@@ -3,12 +3,15 @@ import {
 	getPodcastDetails,
 	getPodcastHosts,
 	getEpisodeList,
+	getSocialLinks,
 	PodcastHost,
+	PodcastSocialLinks,
 } from "../lib/getstrapi";
 
 const podcastDetails = await getPodcastDetails();
 const hosts = await getPodcastHosts();
 const episodeList = await getEpisodeList();
+const socialLinks = await getSocialLinks();
 
 const headerImageLarge = podcastDetails.podcastHeaderImageLarge;
 const headerImageMedium = podcastDetails.podcastHeaderImageMedium;
@@ -45,6 +48,16 @@ const defaultThumbnail = podcastDetails.podcastDefaultThumbnail;
 
 		<ul>
 			{episodeList.map((episode: any) => <li>{episode.episodeName}</li>)}
+		</ul>
+
+		<ul>
+			{
+				Object.keys(socialLinks as PodcastSocialLinks).map((s: string) => (
+					<li>
+						{s}: {s in socialLinks ? socialLinks[s] : "Nothing"}
+					</li>
+				))
+			}
 		</ul>
 	</body>
 </html>

@@ -29,6 +29,14 @@ export interface PodcastEpisode {
   episodeReleaseDate: Date;
 }
 
+export interface PodcastSocialLinks {
+  instagram: string | null;
+  twitter: string | null;
+  patreon: string | null;
+  facebook: string | null;
+  www: string | null;
+}
+
 type ThumbnailSizes = "thumbnail" | "small" | "medium" | "large";
 
 const apiUrl = import.meta.env.API_URL;
@@ -110,4 +118,14 @@ export async function getEpisodeList(): Promise<PodcastEpisode[]> {
   });
 
   return episodeList;
+}
+
+export async function getSocialLinks(): Promise<PodcastSocialLinks> {
+  const data = await fetch(`${apiUrl}/social-media`);
+  const json = await data.json();
+  const socialLinks = json.data.attributes as PodcastSocialLinks;
+  console.log(socialLinks);
+  return {
+    ...socialLinks
+  }
 }
