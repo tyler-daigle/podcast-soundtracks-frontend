@@ -19,6 +19,15 @@ export interface PodcastHost {
   hostPicture: StrapiImage | null;
 }
 
+export interface PodcastEpisode {
+  episodeName: string;
+  episodeDescription: string;
+  episodeNumber: number;
+  episodeDownloadLinks: string[];
+  episodeThumbnail: StrapiImage;
+  episodeReleaseDate: Date;
+}
+
 type ThumbnailSizes = "thumbnail" | "small" | "medium" | "large";
 
 const apiUrl = import.meta.env.API_URL;
@@ -78,3 +87,22 @@ export async function getPodcastDetails() {
   } as PodcastDetails;
 }
 
+export async function getEpisodeList(): Promise<PodcastEpisode[]> {
+  // episodes?populate=episodeThumbnail
+  const data = await fetch(`${apiUrl}/episodes?populate=episodeThumbnail`);
+  const json = await data.json();
+  const episodeData = json.data;
+  const episodeList: PodcastEpisode[] = episodeData.map((episode: any) => {
+    // can add id if needed.
+    const { attributes } = episode;
+    return {
+      episodeName: attributes.episodeName,
+      episodeDescription: attributes.episodeDescription,
+      episodeDownloadLinks: attributes.episodeDownloadLinks,
+      episodeThubmnail: getImageData(attributes.episodeThumbnail.data.attributes, "thumbnail"),
+      episodeReleaseDate: new Date(attributes.episodeReleaseDate + ":12:00")
+    };
+  });
+
+  return episodeList;
+}

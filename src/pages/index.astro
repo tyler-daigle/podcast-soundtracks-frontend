@@ -2,6 +2,7 @@
 import {
 	getPodcastDetails,
 	getPodcastHosts,
+	getEpisodeList,
 	PodcastHost,
 } from "../lib/getstrapi";
 
@@ -9,6 +10,7 @@ const podcastDetails = await getPodcastDetails();
 const headerImage = podcastDetails.podcastHeaderImage;
 const thumbnail = podcastDetails.podcastDefaultThumbnail;
 const hosts = await getPodcastHosts();
+const episodeList = await getEpisodeList();
 ---
 
 <html lang="en">
@@ -37,6 +39,10 @@ const hosts = await getPodcastHosts();
 					</li>
 				))
 			}
+		</ul>
+
+		<ul>
+			{episodeList.map((episode: any) => <li>{episode.episodeName}</li>)}
 		</ul>
 	</body>
 </html>
