@@ -8,6 +8,8 @@ import {
 	PodcastSocialLinks,
 } from "../lib/getstrapi";
 
+import Navbar from "../components/Navbar.astro";
+
 const podcastDetails = await getPodcastDetails();
 const hosts = await getPodcastHosts();
 const episodeList = await getEpisodeList();
@@ -27,6 +29,7 @@ const defaultThumbnail = podcastDetails.podcastDefaultThumbnail;
 		<title>{podcastDetails.podcastName}</title>
 	</head>
 	<body>
+		<Navbar />
 		<img
 			src={headerImageLarge.url}
 			height={headerImageLarge.height}
