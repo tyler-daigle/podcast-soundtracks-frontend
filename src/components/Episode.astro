@@ -38,11 +38,11 @@ const thumbnail =
       <p class="my-4">{episode.episodeDescription}</p>
     </div>
   </div>
-  <ul>
+  <ul class="flex justify-end gap-4">
     {
-      episode.episodeDownloadLinks.map((link, index) => (
-        <li class="ml-auto text-sm border rounded px-4 py-2 w-fit bg-sky-700 border-sky-800 text-indigo-50">
-          <a href={link}>Download</a>
+      episode.episodeDownloadLinks.map((link) => (
+        <li class="text-sm border rounded px-4 py-2  border-sky-800 text-sky-800 hover:bg-sky-400 cursor-pointer">
+          <a href={link.url}>{link.name}</a>
         </li>
       ))
     }

@@ -20,11 +20,13 @@ export interface PodcastHost {
   hostPicture: StrapiImage | null;
 }
 
+type DownloadLink = { url: string, name: string };
+
 export interface PodcastEpisode {
   episodeName: string;
   episodeDescription: string;
   episodeNumber: number;
-  episodeDownloadLinks: string[];
+  episodeDownloadLinks: DownloadLink[];
   episodeThumbnail: StrapiImage;
   episodeReleaseDate: Date;
 }
