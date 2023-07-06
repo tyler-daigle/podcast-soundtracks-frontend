@@ -5,6 +5,41 @@ interface Props {
 }
 
 const { socialName, url } = Astro.props;
+const iconSize = 40;
+
+function getSocialIcon(socialName: string): string[] {
+  let iconSrc = "";
+  let altText = "";
+
+  switch (socialName) {
+    case "instagram":
+      iconSrc = "/icons/instagram-icon.svg";
+      altText = "Instagram Icon";
+      break;
+    case "facebook":
+      iconSrc = "/icons/facebook-icon.svg";
+      altText = "Facebook Icon";
+      break;
+    case "twitter":
+      iconSrc = "/icons/twitter-icon.svg";
+      altText = "Twitter Icon";
+      break;
+    case "patreon":
+      iconSrc = "/icons/patreon-icon.svg";
+      altText = "Patreon Icon";
+      break;
+    case "www":
+      iconSrc = "/icons/www-icon.svg";
+      altText = "WWW Icon";
+      break;
+    default:
+      throw new Error("Unknown Social Link: " + socialName);
+  }
+  return [iconSrc, altText];
+}
+const [iconSrc, altText] = getSocialIcon(socialName);
 ---
 
-<a href={url}>{socialName}</a>
+<a href={url}>
+  <img src={iconSrc} alt={altText} height={iconSize} width={iconSize} />
+</a>
