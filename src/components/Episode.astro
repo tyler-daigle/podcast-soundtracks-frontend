@@ -1,0 +1,50 @@
+---
+import type { PodcastEpisode } from "../lib/getstrapi";
+
+interface Props {
+  episode: PodcastEpisode;
+}
+
+const { episode } = Astro.props;
+
+const thumbnailSize = 150;
+const defaultEpisodeThumbnail = "/image/default-podcast.jpg";
+const thumbnail =
+  episode.episodeThumbnail !== null
+    ? episode.episodeThumbnail.url
+    : defaultEpisodeThumbnail;
+---
+
+<div class="bg-indigo-100 p-4 border border-indigo-200 rounded-md">
+  <div class="sm:flex gap-4">
+    <img
+      class="max-w-[150px] max-h-[150px] block"
+      src={thumbnail}
+      alt={episode.episodeThumbnail.alternativeText}
+      height={thumbnailSize}
+      width={thumbnailSize}
+    />
+    <div class="my-4 sm:m-0">
+      <h3 class="font-semibold text-lg">
+        {episode.episodeNumber}
+        {episode.episodeName}
+      </h3>
+      <p class="text-sm">
+        Released:
+        <span class="font-light text-emerald-900">
+          {episode.episodeReleaseDate.toLocaleDateString()}
+        </span>
+      </p>
+      <p class="my-4">{episode.episodeDescription}</p>
+    </div>
+  </div>
+  <ul>
+    {
+      episode.episodeDownloadLinks.map((link, index) => (
+        <li class="ml-auto text-sm border rounded px-4 py-2 w-fit bg-sky-700 border-sky-800 text-indigo-50">
+          <a href={link}>Download</a>
+        </li>
+      ))
+    }
+  </ul>
+</div>

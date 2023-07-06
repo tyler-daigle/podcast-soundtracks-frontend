@@ -9,7 +9,7 @@ import SocialLink from "./SocialLink.astro";
 const { socialLinks } = Astro.props;
 ---
 
-<ul class="flex w-1/2 m-auto justify-evenly">
+<ul class="flex w-3/4 mx-auto my-4 justify-between">
   {
     Array.from(socialLinks).map(([socialName, url]) =>
       url !== null ? (

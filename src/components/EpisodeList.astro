@@ -1,0 +1,21 @@
+---
+import type { PodcastEpisode } from "../lib/getstrapi";
+import Episode from "./Episode.astro";
+import SectionHeader from "./SectionHeader.astro";
+
+interface Props {
+  episodeList: PodcastEpisode[];
+}
+const { episodeList } = Astro.props;
+---
+
+<SectionHeader id="episodes">Episodes</SectionHeader>
+<ul class="my-4">
+  {
+    episodeList.map((episode: any) => (
+      <li class="my-4">
+        <Episode episode={episode} />
+      </li>
+    ))
+  }
+</ul>

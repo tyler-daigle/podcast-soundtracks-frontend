@@ -11,6 +11,8 @@ import {
 import Navbar from "../components/Navbar.astro";
 import Header from "../components/Header.astro";
 import SocialMediaLinks from "../components/SocialMediaLinks.astro";
+import HostList from "../components/HostList.astro";
+import EpisodeList from "../components/EpisodeList.astro";
 
 const podcastDetails = await getPodcastDetails();
 const hosts = await getPodcastHosts();
@@ -30,38 +32,24 @@ const defaultThumbnail = podcastDetails.podcastDefaultThumbnail;
 		<meta name="generator" content={Astro.generator} />
 		<title>{podcastDetails.podcastName}</title>
 	</head>
-	<body>
+	<body class="bg-indigo-50 text-slate-800">
 		<Navbar />
 		<Header
 			headerImage={headerImageLarge}
 			podcastName={podcastDetails.podcastName}
 		/>
-		<SocialMediaLinks socialLinks={socialLinks} />
-		<h1>{podcastDetails.podcastName}</h1>
-		<p>{podcastDetails.podcastDescription}</p>
-		<ul>
-			{
-				hosts.map((host: PodcastHost) => (
-					<li>
-						<h2>{host.hostName}</h2>
-						<p>{host.hostBio}</p>
-					</li>
-				))
-			}
-		</ul>
+		<main class="scroll-smooth">
+			<div class="px-4 mx-auto lg:w-3/4">
+				<SocialMediaLinks socialLinks={socialLinks} />
 
-		<ul>
-			{episodeList.map((episode: any) => <li>{episode.episodeName}</li>)}
-		</ul>
+				<!-- intro paragraph  -->
+				<p id="about" class="text-lg my-4 font-semibold">
+					{podcastDetails.podcastDescription}
+				</p>
 
-		<ul>
-			{
-				Object.keys(socialLinks as PodcastSocialLinks).map((s: string) => (
-					<li>
-						{s}: {s in socialLinks ? socialLinks[s] : "Nothing"}
-					</li>
-				))
-			}
-		</ul>
+				<HostList hosts={hosts} />
+				<EpisodeList episodeList={episodeList} />
+			</div>
+		</main>
 	</body>
 </html>

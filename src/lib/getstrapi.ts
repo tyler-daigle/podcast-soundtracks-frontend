@@ -38,12 +38,19 @@ const apiUrl = import.meta.env.API_URL;
 export function getImageData(imageData: any, imageSize: ThumbnailSizes): StrapiImage {
   const caption = imageData.caption;
   const alternativeText = imageData.alternativeText;
-  const selectedImage = imageData.formats[imageSize];
+
+
+  let selectedImage: any = {};
+  if (imageData.formats[imageSize] !== null) {
+    selectedImage = imageData.formats[imageSize];
+  } else {
+    selectedImage = imageData;
+  }
+
   const name = selectedImage.name;
   const url = "http://localhost:1337" + selectedImage.url;
   const height = selectedImage.height;
   const width = selectedImage.width;
-
   return {
     name,
     alternativeText,
@@ -58,13 +65,13 @@ export async function getPodcastHosts(): Promise<PodcastHost[]> {
   const data = await fetch(`${apiUrl}/podcast-hosts?populate=hostPicture`);
   const json = await data.json();
   const hostData = json.data;
-
   const hosts: PodcastHost[] = hostData.map((podcastHost: any) => {
     const { attributes } = podcastHost;
+
     return {
       hostName: attributes.hostName,
       hostBio: attributes.hostBio,
-      hostPicture: attributes.hostPicture.data !== null ? getImageData(attributes.hostPicture.data, "thumbnail") : null
+      hostPicture: attributes.hostPicture.data !== null ? getImageData(attributes.hostPicture.data.attributes, "medium") : null
     }
   });
   return hosts;
@@ -102,12 +109,19 @@ export async function getEpisodeList(): Promise<PodcastEpisode[]> {
   const episodeList: PodcastEpisode[] = episodeData.map((episode: any) => {
     // can add id if needed.
     const { attributes } = episode;
+    let episodeThumbnail = {};// { url: "/images/default-podcast-host.jpg" };
+    if (attributes.episodeThumbnail.data !== null) {
+      episodeThumbnail = getImageData(attributes.episodeThumbnail.data.attributes, "thumbnail");
+    } else {
+      episodeThumbnail = { url: "/images/default-podcast-host.jpg" };
+    }
     return {
       episodeName: attributes.episodeName,
       episodeDescription: attributes.episodeDescription,
       episodeDownloadLinks: attributes.episodeDownloadLinks,
-      episodeThubmnail: getImageData(attributes.episodeThumbnail.data.attributes, "thumbnail"),
-      episodeReleaseDate: new Date(attributes.episodeReleaseDate + ":12:00")
+      episodeThumbnail: episodeThumbnail,
+      episodeReleaseDate: new Date(attributes.episodeReleaseDate + ":12:00"),
+      episodeNumber: attributes.episodeNumber
     };
   });
 
@@ -121,15 +135,11 @@ export async function getSocialLinks(): Promise<PodcastSocialLinks> {
   const allowedSites = ["instagram", "twitter", "patreon", "facebook", "www"];
   const links: PodcastSocialLinks = new Map();
 
-  console.log(socialLinks);
-
   Object.keys(socialLinks).forEach(link => {
     if (allowedSites.includes(link)) {
       links.set(link, socialLinks[link]);
     }
-  })
-
-  console.log(links);
+  });
 
   return links;
 }

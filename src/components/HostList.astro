@@ -1,0 +1,39 @@
+---
+interface Props {
+  hosts: PodcastHost[];
+}
+
+import SectionHeader from "./SectionHeader.astro";
+import type { PodcastHost } from "../lib/getstrapi";
+const { hosts } = Astro.props;
+const hostImageWidth = 175;
+const hostImageHeight = 175;
+const ending = hosts.length > 1 ? "s" : "";
+---
+
+<SectionHeader id="hosts">Your Host{ending}</SectionHeader>
+<ul>
+  {
+    hosts.map((host: PodcastHost) => (
+      <li>
+        <h2 class="text-center sm:text-left text-3xl font-semibold my-4">
+          {host.hostName}
+        </h2>
+        <div class="sm:grid sm:grid-cols-[175px_1fr] gap-8 items-center ">
+          <img
+            class="w-full h-auto max-w-[175px] rounded-full shadow-md shadow-neutral-600 m-auto my-4"
+            src={
+              host.hostPicture !== null
+                ? host.hostPicture.url
+                : "/images/default-podcast-host.jpg"
+            }
+            alt="Portait of podcast host"
+            height={hostImageHeight}
+            width={hostImageWidth}
+          />
+          <p class="font-light">{host.hostBio}</p>
+        </div>
+      </li>
+    ))
+  }
+</ul>
